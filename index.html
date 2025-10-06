@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surprise ❤️</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #a8e6cf, #56ab2f);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: #fff;
+    min-height: 100vh;
+}
+.container {
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.3);
+    max-width: 90%;
+    position: relative;
+    transition: opacity 1s ease-in-out;
+    margin: 20px auto;
+}
+img.main-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 3px solid #fff;
+    object-fit: cover;
+}
+h1 { font-size: 2em; margin-bottom: 15px; }
+p { font-size: 1.2em; min-height: 50px; }
+button {
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 1.2em;
+    min-width: 100px;
+    min-height: 50px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: 0.3s;
+    user-select: none;
+}
+button:hover { transform: scale(1.1); }
+.yes { 
+    background-color: #ff4b5c; 
+    color: white; 
+    box-shadow: 0 0 10px #ff4b5c, 0 0 20px #ff4b5c, 0 0 30px #ff4b5c;
+    animation: sparkle 1s infinite;
+    user-select: none;
+}
+.yes::selection { background: none; }
+.no { background-color: #4b79ff; color: white; }
+@keyframes sparkle {
+    0%, 100% { box-shadow: 0 0 10px #ff4b5c, 0 0 20px #ff4b5c, 0 0 30px #ff4b5c; }
+    50% { box-shadow: 0 0 20px #ff6b7c, 0 0 30px #ff6b7c, 0 0 40px #ff6b7c; }
+}
+#buttons { position: relative; margin-top: 15px; }
+.message-container { position: relative; z-index: 10; text-align: center; max-width: 300px; margin: 0 auto; }
+#loveMessage { font-size: 1.2em; line-height: 1.4em; }
+.photo-card { position: absolute; width: 80px; height: 80px; border-radius: 10px; border: 2px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3); object-fit: cover; transition: transform 3s ease-in-out; z-index: 1; }
+.flower, .tulip { position: absolute; font-size: 20px; pointer-events: none; user-select: none; animation: float 5s linear infinite; }
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-50px) rotate(180deg); opacity: 0.7; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+.bouquet {
+    position: fixed;
+    bottom: 10px;
+    font-size: 30px;
+    z-index: 2;
+    user-select: none;
+}
+.bouquet.left { left: 10px; }
+.bouquet.right { right: 10px; }
+@media (max-width: 600px) {
+    #buttons { display: flex; flex-direction: column; align-items: center; }
+    button { width: 80%; max-width: 250px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="questionPage">
+    <img src="https://i.postimg.cc/hPvzhgHn/C8-DB979-F-1742-466-F-BB1-D-A3-FB05-B7717-D.jpg" alt="My Love" class="main-img">
+    <p id="question" style="margin-top:20px; font-size:1.3em;">Do you love me? ❤️</p>
+    <div id="buttons">
+        <button class="yes" id="yesBtn">YES</button>
+        <button class="no" id="noBtn">NO</button>
+    </div>
+</div>
+
+<div class="container" id="surprisePage" style="display:none; opacity:0; position: relative;">
+    <div class="message-container">
+        <h1>You're My Everything ❤️</h1>
+        <p id="loveMessage">Hi My Love, I just wanted to remind you how special you are to me. Thank you for everything. Life may have its ups and downs, but every challenge is a chance to grow stronger and wiser. No matter what happens, I’ll always be here to support you and I'll do everything to make you feel loved and appreciated. I love you more than words can say. 😘</p>
+        <div id="photoCardsContainer" style="position: relative; width: 100%; height: 250px;"></div>
+    </div>
+</div>
+
+<!-- Tulip Bouquets -->
+<div class="bouquet left">🌷🌷🌷🌷🌷</div>
+<div class="bouquet right">🌷🌷🌷🌷🌷</div>
+
+<audio id="music" loop>
+    <source src="https://www.dropbox.com/scl/fi/czsl4s53h5f1nolhoa14g/New-West-Those-Eyes-Home-Session.mp3?rlkey=ljf57yx0j2fkwnha07mm099na&dl=1" type="audio/mpeg">
+</audio>
+
+<script>
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const questionPage = document.getElementById('questionPage');
+const music = document.getElementById('music');
+let noClickCount = 0;
+
+// ✅ Try autoplay when page loads
+window.addEventListener('load', () => {
+    music.play().catch(() => {
+        console.log("Autoplay blocked — will start on button click instead.");
+    });
+});
+
+// ✅ Ensure music starts when user clicks YES or NO (if blocked)
+document.addEventListener('click', () => {
+    if (music.paused) {
+        music.play().catch(err => console.log("Audio play failed:", err));
+    }
+}, { once: true });
+
+// Move NO button inside container
+function moveNoButton() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    const containerRect = questionPage.getBoundingClientRect();
+    const padding = 10;
+    const maxX = containerRect.width - btnWidth - padding;
+    const maxY = containerRect.height - btnHeight - padding;
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+}
+
+// NO button behavior
+function handleNoClick(e) {
+    e.preventDefault();
+    noClickCount++;
+    if(noClickCount >= 3){
+        document.getElementById('question').textContent = "Nice try love 😘 Love mo naman ako diba? click mo nalang yung YES 😘";
+        noBtn.style.display = 'none';
+        yesBtn.style.display = 'inline-block';
+    } else {
+        moveNoButton();
+    }
+}
+
+noBtn.addEventListener('click', handleNoClick);
+noBtn.addEventListener('touchstart', handleNoClick);
+
+// Disable copy/cut on YES button
+yesBtn.addEventListener('copy', e => e.preventDefault());
+yesBtn.addEventListener('cut', e => e.preventDefault());
+
+// YES button shows surprise page
+yesBtn.addEventListener('click', () => {
+    questionPage.style.opacity = 0;
+    setTimeout(() => {
+        questionPage.style.display = 'none';
+        const surprise = document.getElementById('surprisePage');
+        surprise.style.display = 'block';
+        setTimeout(() => surprise.style.opacity = 1, 50);
+
+        const container = document.getElementById('photoCardsContainer');
+        const photoUrls = [
+            'https://i.postimg.cc/fRkc4YwK/3-CB21-AA8-D836-4-B0-C-BD94-B6-F9192-DB48-A.jpg',
+            'https://i.postimg.cc/rwdrZcJZ/6-BE0-CC7-B-20-F7-4-E5-D-8-E65-F077-E32-D80-BD.jpg',
+            'https://i.postimg.cc/BbQ8TGbD/39-B58-DD8-D196-40-DB-B73-C-3-CCB16-BFDD55.jpg',
+            'https://i.postimg.cc/hPvzhgHn/C8-DB979-F-1742-466-F-BB1-D-A3-FB05-B7717-D.jpg'
+        ];
+
+        const placedPositions = [];
+        photoUrls.forEach(url => {
+            const img = document.createElement('img');
+            img.src = url;
+            img.classList.add('photo-card');
+            let x, y, attempts = 0;
+            do {
+                x = Math.random() * (container.clientWidth - img.offsetWidth);
+                y = Math.random() * (container.clientHeight - img.offsetHeight);
+                attempts++;
+            } while(placedPositions.some(pos => Math.abs(pos.x - x) < 90 && Math.abs(pos.y - y) < 90) && attempts < 100);
+            placedPositions.push({x, y});
+            img.style.left = x + 'px';
+            img.style.top = y + 'px';
+            const rotation = Math.random() * 20 - 10;
+            img.style.transform = `rotate(${rotation}deg)`;
+            container.appendChild(img);
+            setInterval(() => {
+                const dx = Math.random() * 10 - 5;
+                const dy = Math.random() * 10 - 5;
+                const dr = Math.random() * 4 - 2;
+                img.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotation + dr}deg)`;
+            }, 3000);
+        });
+
+        // Floating tulips 🌷
+        function createTulip() {
+            const tulip = document.createElement('div');
+            tulip.className = 'tulip';
+            tulip.innerText = '🌷';
+            const rect = surprise.getBoundingClientRect();
+            tulip.style.left = Math.random() * (rect.width - 20) + 'px';
+            tulip.style.top = rect.height + 'px';
+            tulip.style.fontSize = (20 + Math.random() * 20) + 'px';
+            tulip.style.animationDuration = (4 + Math.random() * 5) + 's';
+            surprise.appendChild(tulip);
+            setTimeout(() => tulip.remove(), 9000);
+        }
+        setInterval(createTulip, 500);
+
+        // Floating flowers 🌸
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.innerText = '🌸';
+            const rect = surprise.getBoundingClientRect();
+            flower.style.left = Math.random() * (rect.width - 20) + 'px';
+            flower.style.top = rect.height + 'px';
+            flower.style.fontSize = (15 + Math.random() * 25) + 'px';
+            flower.style.animationDuration = (3 + Math.random() * 4) + 's';
+            surprise.appendChild(flower);
+            setTimeout(() => flower.remove(), 7000);
+        }
+        setInterval(createFlower, 300);
+
+    }, 1000);
+});
+
+// Floating hearts 💖
+setInterval(() => {
+    const heart = document.createElement('div');
+    heart.innerText = '💖';
+    heart.style.position = 'absolute';
+    const rect = yesBtn.getBoundingClientRect();
+    heart.style.left = rect.left + Math.random() * yesBtn.offsetWidth + 'px';
+    heart.style.top = rect.top + Math.random() * yesBtn.offsetHeight + 'px';
+    heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+    heart.style.opacity = Math.random();
+    heart.style.transition = 'all 2s linear';
+    document.body.appendChild(heart);
+    setTimeout(() => {
+        heart.style.top = rect.top - 50 + 'px';
+        heart.style.opacity = 0;
+    }, 50);
+    setTimeout(() => heart.remove(), 2000);
+}, 300);
+</script>
+</body>
+</html>
