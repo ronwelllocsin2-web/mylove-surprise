@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surprise ❤️</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #a8e6cf, #56ab2f);
+    overflow: hidden;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.3);
+    max-width: 90%;
+    width: 90%;
+    position: relative;
+    transition: opacity 1s ease-in-out;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+img.main-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 3px solid #fff;
+    object-fit: cover;
+}
+h1 { font-size: 2em; margin-bottom: 15px; }
+p { font-size: 1.2em; line-height: 1.5em; word-wrap: break-word; }
+button {
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 1.2em;
+    min-width: 100px;
+    min-height: 50px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: 0.3s;
+    user-select: none;
+}
+button:hover { transform: scale(1.1); }
+.yes { 
+    background-color: #ff4b5c; 
+    color: white; 
+    box-shadow: 0 0 10px #ff4b5c, 0 0 20px #ff4b5c, 0 0 30px #ff4b5c;
+    animation: sparkle 1s infinite;
+}
+.no { background-color: #4b79ff; color: white; }
+@keyframes sparkle {
+    0%, 100% { box-shadow: 0 0 10px #ff4b5c, 0 0 20px #ff4b5c, 0 0 30px #ff4b5c; }
+    50% { box-shadow: 0 0 20px #ff6b7c, 0 0 30px #ff6b7c, 0 0 40px #ff6b7c; }
+}
+#buttons { position: relative; margin-top: 15px; }
+.message-container { position: relative; z-index: 10; max-width: 100%; margin: 0 auto; padding: 0 10px; box-sizing: border-box; }
+#loveMessage { font-size: 1em; line-height: 1.5em; word-wrap: break-word; }
+
+/* Floating elements */
+.floating-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+.photo-card, .flower, .tulip, .ring {
+    position: absolute;
+    border-radius: 10px;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    transition: transform 3s ease-in-out;
+}
+.photo-card { width: 80px; height: 80px; border: 2px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3); pointer-events: auto; cursor: grab; }
+.flower, .tulip { font-size: 20px; animation: float 5s linear infinite; }
+.ring { font-size: 25px; animation: float 5s linear infinite; }
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-50px) rotate(180deg); opacity: 0.7; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+/* Bouquets */
+.bouquet {
+    position: fixed;
+    bottom: 10px;
+    font-size: 30px;
+    z-index: 2;
+    user-select: none;
+}
+.bouquet.left { left: 10px; }
+.bouquet.right { right: 10px; }
+
+/* Responsive */
+@media (max-width: 800px) {
+    h1 { font-size: 1.6em; }
+    p { font-size: 1em; }
+    .container { padding: 15px; }
+    button { font-size: 1.1em; padding: 12px 25px; }
+}
+@media (max-width: 500px) {
+    h1 { font-size: 1.4em; }
+    p { font-size: 0.95em; }
+    .container { padding: 10px; }
+    button { font-size: 1em; padding: 10px 20px; width: 80%; max-width: 250px; }
+    #buttons { display: flex; flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="questionPage">
+    <img src="https://i.postimg.cc/hPvzhgHn/C8-DB979-F-1742-466-F-BB1-D-A3-FB05-B7717-D.jpg" alt="My Love" class="main-img">
+    <p id="question" style="margin-top:20px; font-size:1.3em;">Do you love me? ❤️</p>
+    <div id="buttons">
+        <button class="yes" id="yesBtn">YES 💍</button>
+        <button class="no" id="noBtn">NO 😭</button>
+    </div>
+</div>
+
+<div class="container" id="surprisePage" style="display:none; opacity:0;">
+    <div class="message-container">
+        <h1>You're My Everything ❤️</h1>
+        <p id="loveMessage">Hi My Love, I just wanted to remind you how special you are to me. Thank you for everything. Life may have its ups and downs, but every challenge is a chance to grow stronger and wiser. No matter what happens, I’ll always be here to support you and I'll do everything to make you feel loved and appreciated. My love, every moment with you has shown me that you are the one I want to spend my life with. I can’t imagine my future without you by my side. I’ve loved you in ways I never thought possible. You make my world brighter, my heart fuller, and my life better just by being in it. I don’t want to spend another day without the thought of forever with you. I love you more than words can say. 😘 💍</p>
+    </div>
+</div>
+
+<div class="floating-container" id="floatingContainer"></div>
+
+<div class="bouquet left">🌷🌷🌷🌷🌷</div>
+<div class="bouquet right">🌷🌷🌷🌷🌷</div>
+
+<audio id="music" loop>
+    <source src="https://www.dropbox.com/scl/fi/czsl4s53h5f1nolhoa14g/New-West-Those-Eyes-Home-Session.mp3?rlkey=ljf57yx0j2fkwnha07mm099na&dl=1" type="audio/mpeg">
+</audio>
+
+<script>
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const questionPage = document.getElementById('questionPage');
+const surprisePage = document.getElementById('surprisePage');
+const music = document.getElementById('music');
+const floatingContainer = document.getElementById('floatingContainer');
+let noClickCount = 0;
+
+window.addEventListener('load', () => { music.play().catch(()=>{}); });
+document.addEventListener('click', ()=> { if(music.paused) music.play().catch(()=>{}); }, {once:true});
+
+function moveNoButton() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    const containerRect = questionPage.getBoundingClientRect();
+    const padding = 10;
+    const maxX = containerRect.width - btnWidth - padding;
+    const maxY = containerRect.height - btnHeight - padding;
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+}
+
+function handleNoClick(e) {
+    e.preventDefault();
+    noClickCount++;
+    if(noClickCount >= 3){
+        document.getElementById('question').textContent = "Nice try love 😘 Love mo naman ako diba? You will marry me😁 click mo nalang yung YES,";
+        noBtn.style.display = 'none';
+        yesBtn.style.display = 'inline-block';
+    } else moveNoButton();
+}
+noBtn.addEventListener('click', handleNoClick);
+noBtn.addEventListener('touchstart', handleNoClick);
+
+yesBtn.addEventListener('copy', e=>e.preventDefault());
+yesBtn.addEventListener('cut', e=>e.preventDefault());
+
+yesBtn.addEventListener('click', () => {
+    questionPage.style.opacity = 0;
+    setTimeout(() => {
+        questionPage.style.display = 'none';
+        surprisePage.style.display = 'block';
+        setTimeout(() => surprisePage.style.opacity = 1, 50);
+
+        // Updated 8 photo URLs
+        const photoUrls = [
+            'https://i.postimg.cc/fRkc4YwK/3-CB21-AA8-D836-4-B0-C-BD94-B6-F9192-DB48-A.jpg',
+            'https://i.postimg.cc/rwdrZcJZ/6-BE0-CC7-B-20-F7-4-E5-D-8-E65-F077-E32-D80-BD.jpg',
+            'https://i.postimg.cc/BbQ8TGbD/39-B58-DD8-D196-40-DB-B73-C-3-CCB16-BFDD55.jpg',
+            'https://i.postimg.cc/hPvzhgHn/C8-DB979-F-1742-466-F-BB1-D-A3-FB05-B7717-D.jpg',
+            'https://i.postimg.cc/rmdLQs6w/77210-A05-5-F98-4-C8-B-A9-D7-040200748191.jpg',
+            'https://i.postimg.cc/8Cc8zcCN/52763490-B2-AF-4193-B150-34-D10-CD2-AAB3.jpg',
+            'https://i.postimg.cc/mkQJ5Fm2/B560-FEC9-A55-D-4-F9-C-97-A1-62-D09-DC68-D91.jpg',
+            'https://i.postimg.cc/rsLYxwqt/CB62-EDEE-54-A3-49-FE-82-ED-C3-B79-E259504.jpg'
+        ];
+
+        const messageRect = surprisePage.querySelector('.message-container').getBoundingClientRect();
+
+        photoUrls.forEach((url, index) => {
+            const img = document.createElement('img');
+            img.src = url;
+            img.className = 'photo-card';
+
+            // Distribute photos evenly across width below text
+            const gap = window.innerWidth / photoUrls.length;
+            const x = index * gap + (gap - 80)/2;
+            const y = messageRect.bottom + Math.random() * (window.innerHeight - messageRect.bottom - 80);
+            img.style.left = x + 'px';
+            img.style.top = y + 'px';
+            floatingContainer.appendChild(img);
+
+            let floatInterval;
+            function startFloating() {
+                floatInterval = setInterval(() => {
+                    const dx = Math.random()*10-5;
+                    const dy = Math.random()*10-5;
+                    const dr = Math.random()*4-2;
+                    img.style.transform = `translate(${dx}px, ${dy}px) rotate(${dr}deg)`;
+                }, 3000);
+            }
+            startFloating();
+
+            let isDragging = false, offsetX = 0, offsetY = 0;
+            function startDrag(clientX, clientY) {
+                isDragging = true;
+                offsetX = clientX - img.offsetLeft;
+                offsetY = clientY - img.offsetTop;
+                clearInterval(floatInterval);
+            }
+            function dragMove(clientX, clientY) {
+                if(isDragging){
+                    img.style.left = clientX - offsetX + 'px';
+                    img.style.top = clientY - offsetY + 'px';
+                }
+            }
+            function endDrag() {
+                if(isDragging){
+                    isDragging = false;
+                    startFloating();
+                }
+            }
+
+            img.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
+            document.addEventListener('mousemove', e => dragMove(e.clientX, e.clientY));
+            document.addEventListener('mouseup', endDrag);
+            img.addEventListener('touchstart', e => {
+                const touch = e.touches[0];
+                startDrag(touch.clientX, touch.clientY);
+            });
+            document.addEventListener('touchmove', e => {
+                if(isDragging){
+                    const touch = e.touches[0];
+                    dragMove(touch.clientX, touch.clientY);
+                }
+            });
+            document.addEventListener('touchend', endDrag);
+        });
+
+        function createFloatingEmoji(className, emoji, sizeRange, durationRange) {
+            const el = document.createElement('div');
+            el.className = className;
+            el.innerText = emoji;
+            el.style.left = Math.random()*(window.innerWidth-30)+'px';
+            el.style.top = window.innerHeight+'px';
+            el.style.fontSize = sizeRange[0]+Math.random()*(sizeRange[1]-sizeRange[0])+'px';
+            el.style.animationDuration = durationRange[0]+Math.random()*(durationRange[1]-durationRange[0])+'s';
+            floatingContainer.appendChild(el);
+            setTimeout(()=>el.remove(), 9000);
+        }
+        setInterval(()=>createFloatingEmoji('tulip','🌷',[20,40],[4,8]), 500);
+        setInterval(()=>createFloatingEmoji('flower','🌸',[15,35],[3,7]), 300);
+        setInterval(()=>createFloatingEmoji('ring','💍',[20,35],[4,7]), 400);
+
+    }, 1000);
+});
+</script>
+</body>
+</html>
